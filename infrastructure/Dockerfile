@@ -8,18 +8,6 @@ RUN gradle build --no-daemon -x test
 # Run stage
 FROM eclipse-temurin:17-jre-alpine
 
-# Copy the certificates into the runtime image
-COPY infrastructure/logpulse.crt /tmp/logpulse.crt
-
-# Add certificate to the JRE truststore
-RUN keytool -import \
-      -alias logpulse-server-ca \
-      -file /tmp/logpulse.crt \
-      -keystore $JAVA_HOME/lib/security/cacerts \
-      -storepass changeit \
-      -noprompt && \
-    rm /tmp/logpulse.crt
-
 # Set working directory
 WORKDIR /api-gateway
 
