@@ -14,6 +14,10 @@ WORKDIR /api-gateway
 # Copy the built JAR from the build stage
 COPY --from=build /api-gateway/build/libs/*.jar api-gateway.jar
 
+# Switch to root to install curl
+USER root
+RUN apk add --no-cache curl
+
 # Create a non-root user
 RUN adduser -D appuser && \
     chown -R appuser:appuser /api-gateway
